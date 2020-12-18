@@ -11,7 +11,7 @@ require("dotenv").config();
 // Creating Express App
 
 app.use(bodyParser.json());
-app.use(routes);
+app.use("/api", routes);
 app.use(workerRouter);
 app.use(book_service);
 

@@ -53,7 +53,11 @@ class SignUpForCustomer extends Component {
   onSubmit = () => {
     if (this.state.password !== this.state.confirm_password) {
       alert("Password does not match !!! \n Try Again");
-    } else {
+    }
+    else if (this.state.password.length<7 || this.state.confirm_password.length<7 ) {
+      return;
+    }
+    else {
       let data = {};
       let keys = Object.keys(this.state);
       keys.forEach((element) => {
@@ -64,12 +68,18 @@ class SignUpForCustomer extends Component {
       console.log(data);
       axios
         .post("/api/signup_customer", data)
-        .then((res) => {
-          console.log(res.data);
-        })
+        .then(async (res) => {
+          console.log(res.data)
+          
+    })
+        .then((res) => { alert("Successfully signed up") })
+        .then(() => { window.location.reload() })
         .catch((error) => {
-          console.log(error);
-        });
+          if (error.response) {
+           alert(error.response.data[0])  
+         }
+                  
+        })
     }
   };
 
@@ -167,6 +177,7 @@ class SignUpForCustomer extends Component {
               type="password"
               onChange={this.handleChange}
               placeholder="Password"
+              minlength = "7"
               label="Password"
               required
             />
@@ -177,6 +188,7 @@ class SignUpForCustomer extends Component {
               type="password"
               placeholder="Confirm Password"
               label=" Confirm Password"
+              minlength="7"
               onChange={this.handleChange}
               required
             />

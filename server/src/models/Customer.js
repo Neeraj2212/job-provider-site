@@ -23,13 +23,11 @@ const CustomerSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		type_of_work: {
-			type: String,
-		},
+
 		contact: {
 			type: String,
 			unique: true,
-		//	required: true,
+			//	required: true,
 		},
 		email: {
 			type: String,
@@ -42,16 +40,12 @@ const CustomerSchema = new Schema(
 				}
 			},
 		},
-		cost_of_work: Number,
-		experience: String,
-		location: {
-			type: String,
-		//	required: true,
-		},
+
 		address: String,
 		password: {
 			type: String,
-			minlength: 7,
+			required: true,
+			minlength: [7, "Password should contain atleast 7 characters"],
 			trim: true,
 		},
 		feedback: FeedbackSchema,

@@ -26,33 +26,98 @@ const InputForm = ({ label, name, type, placeholder, textArea, ...props }) => (
 );
 
 class SignUpForWorker extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: "",
+			work: "",
+			contact: "",
+			email: "",
+			cost: "",
+			experience: "",
+			location: "",
+			address: "",
+			password: "",
+			confirm_password: "",
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange = (e) => {
+		let change = { [e.target.name]: e.target.value };
+		this.setState(change);
+	};
+
+	handleSubmit(event) {
+		if (this.state.password !== this.state.confirm_password) {
+			alert("Password does not match !!! \n Try Again");
+		} else if (
+			this.state.password.length < 7 ||
+			this.state.confirm_password.length < 7
+		) {
+			return;
+		} else {
+			let data = {};
+			let keys = Object.keys(this.state);
+			keys.forEach((element) => {
+				if (this.state[element].length > 0) {
+					data[element] = this.state[element];
+				}
+			});
+			console.log(data);
+			axios
+				.post("/workers", data)
+				.then(async (res) => {
+					console.log(res.data);
+				})
+				.then((res) => {
+					alert("Successfully signed up");
+				})
+				.then(() => {
+					window.location.reload();
+				})
+				.catch((error) => {
+					if (error.response) {
+						alert(error.response.data[0]);
+					}
+				});
+		}
+	}
+
 	render() {
 		return (
 			<div className="form-div">
 				<h1 className="form-header">Sign Up (Worker)</h1>
 				<div className="form-component">
-					<Form id="form">
+					<Form id="form" onSubmit={this.handleSubmit}>
 						<InputForm
 							name="name"
 							type="text"
 							placeholder="Name"
+							value={this.state.name}
+							onChange={this.handleChange}
 							label="Name"
 							required
 						/>
 
 						<InputForm
 							name="work"
+							value={this.state.work}
 							type="text"
 							placeholder="For Example - Plumber, Carpenter, Painter"
+							onChange={this.handleChange}
 							label="Type of Work"
 							required
 						/>
 
 						<InputForm
 							name="contact"
+							value={this.state.contact}
 							type="number"
 							placeholder="(+91) Contact Number"
 							id="contact"
+							onChange={this.handleChange}
 							label="Contact"
 							width="8"
 							required
@@ -60,31 +125,39 @@ class SignUpForWorker extends Component {
 
 						<InputForm
 							name="email"
+							value={this.state.email}
 							type="email"
+							onChange={this.handleChange}
 							placeholder="Email"
 							label="Email"
 						/>
 
 						<InputForm
 							name="cost"
+							value={this.state.cost}
 							type="number"
 							placeholder="Cost of Work"
 							label="Cost of Work (INR)"
+							onChange={this.handleChange}
 							width="8"
 							min="0"
 						/>
 
 						<InputForm
 							name="experience"
+							value={this.state.experience}
 							type="text"
+							onChange={this.handleChange}
 							placeholder="For Example- Experience of 4 years in Carpentry "
 							label="Experience"
 						/>
 
 						<InputForm
 							name="location"
+							value={this.state.location}
 							type="text"
 							placeholder="Location"
+							onChange={this.handleChange}
 							label="Location"
 							width="8"
 							required
@@ -92,22 +165,28 @@ class SignUpForWorker extends Component {
 
 						<InputForm
 							name="address"
+							value={this.state.address}
 							type="text"
+							onChange={this.handleChange}
 							placeholder="Address"
 							label="Address"
 						/>
 
 						<InputForm
 							name="password"
+							value={this.state.password}
 							type="password"
+							onChange={this.handleChange}
 							placeholder="Password"
 							label="Password"
 							required
 						/>
 
 						<InputForm
-							name="confirm-password"
+							name="confirm_password"
+							value={this.state.confirm_password}
 							type="password"
+							onChange={this.handleChange}
 							placeholder="Confirm Password"
 							label=" Confirm Password"
 							required
