@@ -8,9 +8,7 @@ const auth = require("../middleware/auth").auth;
 const passport = require("../middleware/auth").passport;
 const bcrypt = require("bcryptjs");
 
-const auth = require("../middleware/auth");
-const Worker = require("../models/signup_workers");
-const validationError = require("../error-handler/validation-error").validation;
+const errorHandler = require("../error-handler/Errorhandler").errorhandler;
 
 // Testing Purpose
 // router.get('/signup_customer', (req, res) => {
@@ -150,7 +148,7 @@ router.post("/signup_customer", async (req, res) => {
 		res.status(201).send({ customer, token });
 	} catch (e) {
 		// res.status(400).send(e);
-		validationError(res, e);
+		errorHandler(res, e);
 	}
 });
 

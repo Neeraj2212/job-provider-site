@@ -1,7 +1,7 @@
 const express = require("express");
 const Worker = require("../models/signup_workers");
 const router = new express.Router();
-const validationError = require("../error-handler/validation-error").validation;
+const errorHandler = require("../error-handler/Errorhandler").errorhandler;
 
 var RateLimit = require("express-rate-limit");
 var limiter = new RateLimit({
@@ -24,7 +24,7 @@ router.post("/workers", async (req, res) => {
 		//res.json(worker)
 		res.status(201).send({ worker, token });
 	} catch (e) {
-		validationError(res, e);
+		errorHandler(res, e);
 	}
 });
 

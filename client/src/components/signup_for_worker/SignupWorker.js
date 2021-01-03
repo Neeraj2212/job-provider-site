@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "semantic-ui-css/semantic.min.css";
 import { Button, Form, TextArea } from "semantic-ui-react";
+import axios from "axios";
 
 // reusable component to render input field whenever needed
 const InputForm = ({ label, name, type, placeholder, textArea, ...props }) => (

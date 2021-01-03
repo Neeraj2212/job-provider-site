@@ -1,3 +1,9 @@
+exports.errorhandler = (res, error) => {
+	if (error.name == "ValidationError") {
+		return this.validation(res, error);
+	}
+};
+
 exports.validation = (res, error) => {
 	let err = Object.keys(error.errors);
 	err_msg = [];
